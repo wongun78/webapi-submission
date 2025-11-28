@@ -1,0 +1,44 @@
+services:
+  # Database PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: webapi-postgres
+    environment:
+      POSTGRES_DB: webapi
+      POSTGRES_USER: webapi_user
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - webapi-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U webapi_user -d webapi"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot Application
+  app:
+    build: .
+    container_name: webapi-app
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/webapi
+      DB_USERNAME: webapi_user
+      DB_PASSWORD: 123456
+      JWT_SECRET: IdHRjBEmk7+X3GYmmRSSkkzs24VkFxO3Sn7HnoJpr0c=
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - webapi-network
+
+networks:
+  webapi-network:
+
+volumes:
+  postgres_data:
