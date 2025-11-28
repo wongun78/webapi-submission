@@ -17,7 +17,7 @@ public class UserController {
 
     private final UserRepository userRepository;
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     @ApiMessage("Get all users")
     public ResponseEntity<List<UserResponse>> getAll() {

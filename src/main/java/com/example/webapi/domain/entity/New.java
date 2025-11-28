@@ -44,6 +44,9 @@ public class New {
     @PrePersist
     public void handleBeforeCreate() {
         this.createdAt = Instant.now();
+        if (this.status == null) {
+            this.status = NewStatusEnum.DRAFT; // Default status
+        }
     }
 
     @PreUpdate

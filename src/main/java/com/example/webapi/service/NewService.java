@@ -2,6 +2,7 @@ package com.example.webapi.service;
 
 import java.util.List;
 
+import com.example.webapi.domain.dto.common.DashboardResponse;
 import com.example.webapi.domain.dto.news.NewRequest;
 import com.example.webapi.domain.dto.news.NewResponse;
 
@@ -16,4 +17,8 @@ public interface NewService {
     NewResponse update(Long id, NewRequest request);
 
     void delete(Long id);
+
+    NewResponse publishNews(Long id);
+
+    DashboardResponse getDashboard();
 }

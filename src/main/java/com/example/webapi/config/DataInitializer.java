@@ -25,17 +25,19 @@ public class DataInitializer {
     @EventListener(ApplicationReadyEvent.class)
     @Transactional
     public void initializeData() {
-        Role adminRole = roleRepository.findByName("ADMIN")
+        Role adminRole = roleRepository.findByName("ROLE_ADMIN")
                 .orElseGet(() -> {
                     Role role = new Role();
-                    role.setName("ADMIN");
+                    role.setName("ROLE_ADMIN");
+                    role.setDescription("Administrator role");
                     return roleRepository.save(role);
                 });
 
-        Role userRole = roleRepository.findByName("USER")
+        Role reporterRole = roleRepository.findByName("ROLE_REPORTER")
                 .orElseGet(() -> {
                     Role role = new Role();
-                    role.setName("USER");
+                    role.setName("ROLE_REPORTER");
+                    role.setDescription("Reporter role");
                     return roleRepository.save(role);
                 });
 
@@ -48,24 +50,23 @@ public class DataInitializer {
             
             Set<Role> adminRoles = new HashSet<>();
             adminRoles.add(adminRole);
-            adminRoles.add(userRole);
             admin.setRoles(adminRoles);
             
             userRepository.save(admin);
         }
 
-        if (!userRepository.existsByUsername("user")) {
-            User user = new User();
-            user.setUsername("user");
-            user.setEmail("user@example.com");
-            user.setPassword(passwordEncoder.encode("password123"));
-            user.setStatus(com.example.webapi.util.constant.UserStatusEnum.ACTIVE);
+        if (!userRepository.existsByUsername("reporter")) {
+            User reporter = new User();
+            reporter.setUsername("reporter");
+            reporter.setEmail("reporter@example.com");
+            reporter.setPassword(passwordEncoder.encode("password123"));
+            reporter.setStatus(com.example.webapi.util.constant.UserStatusEnum.ACTIVE);
             
-            Set<Role> userRoles = new HashSet<>();
-            userRoles.add(userRole);
-            user.setRoles(userRoles);
+            Set<Role> reporterRoles = new HashSet<>();
+            reporterRoles.add(reporterRole);
+            reporter.setRoles(reporterRoles);
             
-            userRepository.save(user);
+            userRepository.save(reporter);
         }
     }
 }

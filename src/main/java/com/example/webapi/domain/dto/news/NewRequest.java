@@ -15,7 +15,4 @@ public class NewRequest {
 
     @NotNull(message = "Category ID must not be null")
     private Long categoryId;
-
-    @NotNull(message = "User ID must not be null")
-    private Long userId;
 }

@@ -68,10 +68,11 @@ public class AuthServiceImpl implements AuthService {
             throw new BadRequestException("Email already exists");
         }
 
-        Role userRole = roleRepository.findByName(AppConstants.ROLE_USER)
+        Role reporterRole = roleRepository.findByName(AppConstants.ROLE_REPORTER)
                 .orElseGet(() -> {
                     Role newRole = new Role();
-                    newRole.setName(AppConstants.ROLE_USER);
+                    newRole.setName(AppConstants.ROLE_REPORTER);
+                    newRole.setDescription("Reporter role");
                     return roleRepository.save(newRole);
                 });
 
@@ -80,7 +81,7 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEmail(request.getEmail());
         user.setStatus(com.example.webapi.util.constant.UserStatusEnum.ACTIVE);
-        user.setRoles(Collections.singleton(userRole));
+        user.setRoles(Collections.singleton(reporterRole));
 
         userRepository.save(user);
     }

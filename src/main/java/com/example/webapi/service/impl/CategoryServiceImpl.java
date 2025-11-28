@@ -9,6 +9,7 @@ import com.example.webapi.domain.entity.New;
 import com.example.webapi.repository.CategoryRepository;
 import com.example.webapi.repository.NewRepository;
 import com.example.webapi.service.CategoryService;
+import com.example.webapi.util.SlugUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -51,9 +52,20 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryRepository.existsByName(request.getName())) {
             throw new BadRequestException("Category name already exists");
         }
+        
+        // Auto-generate slug from name if not provided
+        String slug = request.getSlug();
+        if (slug == null || slug.trim().isEmpty()) {
+            slug = SlugUtil.toSlug(request.getName());
+        }
+        
+        if (categoryRepository.existsBySlug(slug)) {
+            throw new BadRequestException("Category slug already exists: " + slug);
+        }
+        
         Category category = new Category();
         category.setName(request.getName());
-        category.setSlug(request.getSlug());
+        category.setSlug(slug);
         
         Category savedCategory = categoryRepository.save(category);
         
@@ -72,8 +84,18 @@ public class CategoryServiceImpl implements CategoryService {
             throw new BadRequestException("Category name already exists");
         }
 
+        // Auto-generate slug from name if not provided
+        String slug = request.getSlug();
+        if (slug == null || slug.trim().isEmpty()) {
+            slug = SlugUtil.toSlug(request.getName());
+        }
+        
+        if (categoryRepository.existsBySlugAndIdNot(slug, id)) {
+            throw new BadRequestException("Category slug already exists: " + slug);
+        }
+
         category.setName(request.getName());
-        category.setSlug(request.getSlug());
+        category.setSlug(slug);
 
         Category savedCategory = categoryRepository.save(category);
         
