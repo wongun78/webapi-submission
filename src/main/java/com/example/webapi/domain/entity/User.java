@@ -25,11 +25,10 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = false, unique = false)
     private String email;
     
     @Column(nullable = false)
-    // @DefaultValue(UserStatusEnum.ACTIVE)
     @Enumerated(EnumType.STRING)
     private com.example.webapi.util.constant.UserStatusEnum status;
 

@@ -31,7 +31,7 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.getById(id));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     @ApiMessage("Create category")
     public ResponseEntity<CategoryResponse> create(
@@ -39,7 +39,7 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.create(request));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     @ApiMessage("Update category")
     public ResponseEntity<CategoryResponse> update(
@@ -48,7 +48,7 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.update(id, request));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @ApiMessage("Deleted category")
     public ResponseEntity<Void> delete(@PathVariable Long id) {

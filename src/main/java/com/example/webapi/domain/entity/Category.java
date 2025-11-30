@@ -23,7 +23,7 @@ public class Category {
     @Column(nullable = false, unique = true)
     private String slug;
 
-    private Instant createdAt;;
+    private Instant createdAt;
 
     @PrePersist
     public void handleBeforeCreate() {

@@ -3,6 +3,7 @@ package com.example.webapi.service.impl;
 import com.example.webapi.domain.dto.auth.AuthResponse;
 import com.example.webapi.domain.dto.auth.LoginRequest;
 import com.example.webapi.domain.dto.auth.RegisterRequest;
+import com.example.webapi.domain.dto.user.UserResponse;
 import com.example.webapi.domain.entity.Role;
 import com.example.webapi.domain.entity.User;
 import com.example.webapi.exception.BadRequestException;
@@ -46,12 +47,12 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new BadRequestException("User not found"));
 
         AuthResponse res = new AuthResponse();
-        AuthResponse.UserLogin userLogin = new AuthResponse.UserLogin();
-        userLogin.setId(user.getId());
-        userLogin.setEmail(user.getEmail());
-        userLogin.setUsername(user.getUsername());
-        userLogin.setRoles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()));
-        res.setUser(userLogin);
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(user.getId());
+        userResponse.setEmail(user.getEmail());
+        userResponse.setUsername(user.getUsername());
+        userResponse.setRoles(user.getRoles().stream().map(Role::getName).collect(Collectors.toSet()));
+        res.setUser(userResponse);
 
         String accessToken = securityUtil.createAccessToken(authentication.getName(), res);
         res.setAccessToken(accessToken);

@@ -32,7 +32,7 @@ public class NewController {
         return ResponseEntity.ok(newService.getById(id));
     }
 
-    @PreAuthorize("hasRole('ROLE_REPORTER')")
+    @PreAuthorize("hasRole('REPORTER')")
     @PostMapping
     @ApiMessage("Create new")
     public ResponseEntity<NewResponse> create(
@@ -40,7 +40,7 @@ public class NewController {
         return ResponseEntity.ok(newService.create(request));
     }
 
-    @PreAuthorize("hasRole('ROLE_REPORTER')")
+    @PreAuthorize("hasRole('REPORTER')")
     @PutMapping("/{id}")
     @ApiMessage("Update new")
     public ResponseEntity<NewResponse> update(
@@ -49,7 +49,7 @@ public class NewController {
         return ResponseEntity.ok(newService.update(id, request));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_REPORTER')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('REPORTER')")
     @DeleteMapping("/{id}")
     @ApiMessage("Deleted new")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
@@ -57,14 +57,14 @@ public class NewController {
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/admin/{id}/publish")
     @ApiMessage("Publish news")
     public ResponseEntity<NewResponse> publishNews(@PathVariable Long id) {
         return ResponseEntity.ok(newService.publishNews(id));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/admin/dashboard")
     @ApiMessage("Get dashboard statistics")
     public ResponseEntity<DashboardResponse> getDashboard() {

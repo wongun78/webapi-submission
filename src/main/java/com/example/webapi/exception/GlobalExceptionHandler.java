@@ -26,18 +26,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(res);
     }
 
-    @ExceptionHandler(value = {
-            NoResourceFoundException.class,
-            ResourceNotFoundException.class
-    })
-    public ResponseEntity<ApiResponse<Object>> handleNotFoundException(Exception ex) {
-        ApiResponse<Object> res = new ApiResponse<>();
-        res.setStatusCode(HttpStatus.NOT_FOUND.value());
-        res.setMessage(ex.getMessage());
-        res.setError("404 Not Found. URL may not exist...");
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<Object>> validationError(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
@@ -62,6 +50,18 @@ public class GlobalExceptionHandler {
         res.setMessage(ex.getMessage());
         res.setError("Exception occurs...");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
+    }
+
+    @ExceptionHandler(value = {
+            NoResourceFoundException.class,
+            ResourceNotFoundException.class
+    })
+    public ResponseEntity<ApiResponse<Object>> handleNotFoundException(Exception ex) {
+        ApiResponse<Object> res = new ApiResponse<>();
+        res.setStatusCode(HttpStatus.NOT_FOUND.value());
+        res.setMessage(ex.getMessage());
+        res.setError("404 Not Found. URL may not exist...");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
     }
 
     @ExceptionHandler(value = {
